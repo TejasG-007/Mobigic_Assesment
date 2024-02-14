@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         keyboardType: TextInputType.number,
                         controller: _mSizeController,
                         validator: (val){
-                          if(val!.isEmpty || val!.isAlphabetOnly){
+                          if(val!.isEmpty || val.isAlphabetOnly){
                             return "";
                           }
                           return null;
@@ -83,6 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                  ElevatedButton(
+                     style: ElevatedButton.styleFrom(
+                         shape: RoundedRectangleBorder(
+                             borderRadius: BorderRadius.circular(10)
+                         )
+                     ),
                       onPressed: () {
                        if(_sizeKey.currentState!.validate()){
                          universalController.isClicked.value = true;
@@ -120,7 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("M-WORD",style:  TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Colors.teal),),
        centerTitle: true,
         actions: [
-        ElevatedButton(onPressed: (){
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+              )
+          ),
+          onPressed: (){
            askUserGridSize();
          },child:const  Text("Clear Matrix"),)
         ],
@@ -136,11 +147,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   textCapitalization: TextCapitalization.characters,
                   controller: _addOrSearchValue,
                   validator: (val) {
-                    if (val == null ||
-                        val.isEmpty ||
-                        val.length < universalController.getMValue ||
-                        !val.isAlphabetOnly) {
-                      return "Invalid Data";
+                    if(!universalController.isMatrixFilled){
+                      if (val == null ||
+                          val.isEmpty ||
+                          val.length < universalController.getMValue ||
+                          !val.isAlphabetOnly) {
+                        return "Invalid Data";
+                      }
+                    }else if(val == null || !val.isAlphabetOnly){
+                      return "Invalid Search Data";
                     }
                     return null;
                   },
@@ -167,6 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Obx(
                     () => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        )
+                      ),
                     onPressed: () {
                       if (_searchOrAddFormKey.currentState!.validate()) {
                         if (universalController.isMatrixFilled) {
